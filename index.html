@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Surprise for Shann ❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+        body {
+            background-color: #ffe6e6;
+            font-family: 'Pacifico', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #content {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1, h2, p {
+            color: #cc0052;
+            animation: floatText 3s ease-in-out infinite;
+        }
+
+        button {
+            background-color: #ff6699;
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 20px;
+            margin: 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-family: 'Pacifico', cursive;
+            position: relative;
+            z-index: 1;
+        }
+
+        button:hover {
+            background-color: #ff3366;
+        }
+
+        @keyframes floatText {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+        #yesBtn, #noBtn {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            clip-path: polygon(50% 0%, 61% 20%, 80% 20%, 90% 35%, 90% 50%, 75% 70%, 50% 100%, 25% 70%, 10% 50%, 10% 35%, 20% 20%, 39% 20%);
+            animation: floatHeart 5s linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes floatHeart {
+            from { transform: translateY(100vh); }
+            to { transform: translateY(-10vh); }
+        }
+
+        #message {
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<audio id="bgMusic" src="song1.mp3" autoplay loop></audio>
+<audio id="finalMusic" src="valentine.mp3"></audio>
+
+<div id="content">
+    <h1 id="message">Hiii Shannnn!!!!! Happpyyyy Valentinesss❤️❤️❤️</h1>
+    <button onclick="nextMessage()">Next</button>
+</div>
+
+<script>
+    const messages = [
+        "Mhhhh... I'm starting to have my doubts... is it the 'Shann'?? I'm talking to🤔🤔🤔??",
+        "If this is the real 'Shann', then the 'Shann' that I know will know how to answer these questions.✨",
+        "Do you enjoy romantic movies? 🎥❤️",
+        "Do you believe in love at first sight? 😍",
+        "Do you like receiving flowers? 🌸",
+        "Have you ever made a mixtape or playlists for someone you love? 🎶",
+        "Do you prefer a quiet night in over a night out on Valentine's Day? 🕯️🍷",
+        "Have you ever celebrated Valentine's Day in a unique way? 🎊",
+        "Do you enjoy watching the sunset with someone special? 🌅",
+        "Do you believe in soulmates? 💑",
+        "Do you enjoy taking long walks with your partner? 🚶‍♂️🚶‍♀️",
+        "Do you like sharing your favorite books or movies with your loved one? 📚🎬",
+        "And for the last question... 🧐",
+        "Will you be my valentine? 💖"
+    ];
+
+    const humorousReplies = [
+        { yes: "Romantic movies and you? A perfect combo! 🍿❤️", no: "Not a fan? That's cool, action movies it is! 💥" },
+        { yes: "Love at first sight? Just like how I feel now! 😍", no: "No? Guess we'll fall in love slowly then! 😘" },
+        { yes: "Flowers are lovely, but you're blooming in my heart! 🌸", no: "No flowers? How about chocolates then? 🍫" },
+        { yes: "A mixtape? That's dedication! 🎶❤️", no: "No playlist? I guess I'll make one for us then! 🎧" },
+        { yes: "Quiet nights are the best with the right company. 🕯️", no: "Night outs? Let's dance the night away then! 💃" },
+        { yes: "Unique? Just like you! 😉", no: "No? Maybe we can make this one special together! ❤️" },
+        { yes: "Sunsets are more beautiful with someone special. 🌅", no: "Not a fan? How about sunrises then? 🌄" },
+        { yes: "Soulmates? I think I just found mine. 😘", no: "No soulmates? Guess we can be best friends forever! 🤗" },
+        { yes: "Long walks? Only if we can hold hands! 🤝", no: "No walks? Then let's ride bikes together! 🚴" },
+        { yes: "Sharing favorites? Let me guess, you love me? 😍", no: "No sharing? Guess I'll keep you all to myself then! 😏" },
+        { yes: "Knew it! You're the romantic type. 😉", no: "Haha, that's okay, you're still adorable! 🤭" },
+        { yes: "Aww, that's so sweet! Just like you. ❤️", no: "Oh no! But hey, opposites attract, right? 😜" }
+    ];
+
+    let index = 0;
+    let finalNoClickCount = 0;
+    const finalNoMessages = [
+        "Oh come on, don't be shy! 🥺",
+        "Really? You're breaking my heart here! 💔",
+        "Okay okay, but what if I ask nicely? 🥰",
+        "Okay, last chance... it's fate calling! 💖",
+        "Alright, you're really testing me now! 😏"
+    ];
+
+    function nextMessage() {
+        const content = document.getElementById('content');
+        content.innerHTML = '';
+
+        if (index < messages.length) {
+            content.innerHTML = `<h1>${messages[index]}</h1>`;
+
+            if (index === 0 || index === 1 || index === 12) {
+                content.innerHTML += `<button onclick="nextMessage()">Next</button>`;
+            } else if (index >= 2 && index < messages.length - 1) {
+                content.innerHTML += `<button onclick="handleAnswer('yes')" id="yesBtn">Yes</button><button onclick="handleAnswer('no')" id="noBtn">No</button>`;
+            } else {
+                content.innerHTML += `<button onclick="finalQuestion('yes')" id="yesBtn">Yes</button><button onclick="finalQuestion('no')" id="noBtn">No</button>`;
+            }
+
+            index++;
+        }
+    }
+
+    function handleAnswer(answer) {
+        const content = document.getElementById('content');
+        const reply = humorousReplies[index - 3][answer];
+        content.innerHTML = `<h1>${reply}</h1><button onclick="nextMessage()">Next</button>`;
+    }
+
+    function finalQuestion(answer) {
+        const content = document.getElementById('content');
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+
+        if (answer === 'no') {
+            finalNoClickCount++;
+
+            if (finalNoClickCount < finalNoMessages.length) {
+                content.innerHTML = `<h1>${finalNoMessages[finalNoClickCount - 1]}</h1>`;
+                content.innerHTML += `<button onclick="finalQuestion('yes')" id="yesBtn">Yes</button><button onclick="finalQuestion('no')" id="noBtn">No</button>`;
+            } else {
+                if (noBtn) noBtn.remove();
+                content.innerHTML = `<h1>It's inevitable... just say YES already! 💖</h1><button onclick="finalQuestion('yes')">Okay, YES!</button>`;
+            }
+
+            if (yesBtn && noBtn) {
+                yesBtn.style.transform = `scale(${1 + finalNoClickCount * 0.2})`;
+                noBtn.style.transform = `scale(${1 - finalNoClickCount * 0.1})`;
+            }
+        } else {
+            document.getElementById('bgMusic').pause();
+            document.getElementById('finalMusic').volume = 1.0;
+            document.getElementById('finalMusic').play();
+
+            content.innerHTML = `<h1>Yayyy!! Happy Valentine's Day, Shann! ❤️❤️❤️</h1>`;
+            createFloatingHearts();
+        }
+    }
+
+    function createFloatingHearts() {
+        for (let i = 0; i < 20; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (3 + Math.random() * 2) + 's';
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const bgMusic = document.getElementById('bgMusic');
+        bgMusic.volume = 0.5;
+        bgMusic.play().catch(() => {
+            document.addEventListener('click', () => {
+                bgMusic.play();
+            }, { once: true });
+        });
+    });
+
+</script>
+
+</body>
+</html>
